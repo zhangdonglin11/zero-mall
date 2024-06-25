@@ -1,0 +1,21 @@
+Name: goods.rpc
+ListenOn: 0.0.0.0:8002
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: goods.rpc
+
+
+Mysql:
+  DataSource: root:123456@tcp(127.0.0.1:3309)/zero-mall?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+
+RedisConf:
+  Host: 127.0.0.1:6379
+  Type: node
+  Pass:
+  Tls: false
+
+MicroService:
+  Driver: 'dtm-driver-gozero' # 配置dtm使用go-zero的微服务协议
+  Target: 'etcd://127.0.0.1:2379/dtmservice' # 把dtm注册到etcd的这个地址
+  EndPoint: '127.0.0.1:36790' # dtm的本地地址

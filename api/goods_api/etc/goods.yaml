@@ -1,0 +1,12 @@
+Name: Goods
+Host: 0.0.0.0
+Port: 9002
+Auth:
+  AccessSecret: zero-mall
+  AccessExpire: 360000
+
+GoodsRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: goods.rpc

@@ -1,0 +1,33 @@
+Name: user
+Host: 0.0.0.0
+Port: 9001
+
+Auth:
+  AccessSecret: zero-mall
+  AccessExpire: 360000000
+
+UserRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc
+
+# 需保密
+SMS:
+
+
+Redis:
+  Host: 127.0.0.1:6379
+  Type: node
+  
+
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9091
+  Path: /metrics
+
+Telemetry:
+  Name: user-api
+  Endpoint: http://localhost:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger

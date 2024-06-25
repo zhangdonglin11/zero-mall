@@ -1,0 +1,57 @@
+// 声明 proto 语法版本，固定值
+syntax = "proto3";
+
+// proto 包名
+package goods;
+
+// 生成 golang 代码后的包名
+option go_package = "./goods";
+
+service Goods{
+  //商品接口
+  rpc GoodsList(GoodsFilterRequest) returns(GoodsListResponse);
+  rpc BatchGetGoods(BatchGoodsIdInfo) returns(GoodsListResponse); //批量获取商品信息
+  rpc CreateGoods(CreateGoodsInfo) returns (GoodsInfoResponse);
+  rpc DeleteGoods(DeleteGoodsInfo) returns (Empty);
+  rpc UpdateGoods(CreateGoodsInfo) returns (Empty);
+  rpc GetGoodsDetail(GoodInfoRequest) returns(GoodsInfoResponse);
+}
+// 商品
+message Empty{}
+message GoodsFilterRequest{
+  int64 page =1;
+  int64 PageSize=2;
+}
+message BatchGoodsIdInfo {
+  repeated int64 id = 1;
+}
+message CreateGoodsInfo {
+  int64 id =1;
+  string name = 2;
+  string goodsSn=3;
+  string goodsBrief=4;
+  int64 shopPrice = 5;
+  int64 status=7;
+}
+message DeleteGoodsInfo {
+  int64 id = 1;
+}
+message GoodInfoRequest {
+  int64 id = 1;
+}
+message GoodsListResponse {
+  int64 total = 1;
+  repeated GoodsInfoResponse data = 2;
+}
+message GoodsInfoResponse {
+  int64 id =1;
+  string name = 2;
+  string goodsSn=3;
+  string goodsBrief=4;
+  int64 shopPrice = 5;
+  int64 status=7;
+}
+
+
+
+

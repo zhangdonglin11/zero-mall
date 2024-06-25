@@ -1,0 +1,34 @@
+Name: Order
+Host: 0.0.0.0
+Port: 9003
+Auth:
+  AccessSecret: zero-mall
+  AccessExpire: 360000
+ShopCarRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: shopcar.rpc
+
+GoodsRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: goods.rpc
+
+OrderRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: order.rpc
+
+InventoryRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: inventory.rpc
+
+
+
+
+

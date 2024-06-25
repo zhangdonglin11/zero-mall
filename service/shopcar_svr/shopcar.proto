@@ -1,0 +1,39 @@
+// 声明 proto 语法版本，固定值
+syntax = "proto3";
+
+// proto 包名
+package shopcar;
+
+// 生成 golang 代码后的包名
+option go_package = "./shopCar";
+
+service ShopCar{
+  // 添加商品到购物车
+  rpc AddGoodsToCar(ShopCarItemInfo) returns(ShopCarItemInfo);
+  // 修改购物车商品数量和选中状态
+  rpc UpdateGoodsToCar(ShopCarItemInfo) returns(Empty);
+  // 删除购物车中的商品
+  rpc DeleteGoodsToCar(ShopCarItemInfo) returns(Empty);
+  // 获取购物车中的商品 传用户id获取用户的购物车商品，+传checked获取购物车选中商品
+  rpc GetShopCarList(ShopCarItemInfo) returns(ShopCarListResponse);
+  // 批量删除购物车的商品
+  rpc BatchDelShopCar(shopCarListRequest)returns(Empty);
+  // 回滚
+  rpc RollBackDelShopCar(shopCarListRequest)returns(Empty);
+}
+message Empty{}
+// 购物车
+message ShopCarListResponse{
+  int64 total =1;
+  repeated ShopCarItemInfo data= 2;
+}
+message  ShopCarItemInfo{
+  int64 id = 1;
+  int64 user=2;
+  int64 goods=3;
+  int64 nums=4;
+  bool  checked=5;
+}
+message shopCarListRequest{
+  repeated ShopCarItemInfo data=1;
+}

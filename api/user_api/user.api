@@ -1,0 +1,68 @@
+type (
+	CaptchaResponse {
+		CaptchaId string `json:"captchaId"`
+		PicPath   string `json:"picPath"`
+	}
+	LoginRequest {
+		Mobile    string `json:"mobile"`
+		Password  string `json:"password"`
+		CaptchaId string `json:"captchaId"`
+		Captcha   string `json:"captcha"`
+	}
+	SmsRequest {
+		Mobile string `json:"mobile"`
+		Type   uint   `json:"type"`
+	}
+	RegisterRequest {
+		Mobile   string `json:"mobile"`
+		Password string `json:"password"`
+		Code     string `json:"code"`
+	}
+)
+
+type (
+	UserDetailResponse {
+		Id       int64  `json:"id"`
+		Name     string `json:"name"`
+		Gender   string `json:"gender"`
+		Mobile   string `json:"mobile"`
+		Birthday string `json:"birthday"`
+	}
+	UpdateUserInfoRequest {
+		Name     string `json:"name"`
+		Gender   string `json:"gender"`
+		Birthday string `json:"birthday"`
+	}
+)
+
+@server (
+	prefix: /v1/api
+	group:  auth
+)
+service user {
+	@handler GetCaptcha
+	get /captcha returns (CaptchaResponse)
+
+	@handler PassWordLogin
+	post /psw_login (LoginRequest) returns (string)
+
+	@handler GetSMS
+	get /send_sms (SmsRequest) returns (string)
+
+	@handler Register
+	post /register (RegisterRequest) returns (string)
+}
+
+@server (
+	prefix: /v1/api/user
+	group:  user
+	jwt:    Auth
+)
+service user {
+	@handler UserDetail
+	post /detail returns (UserDetailResponse)
+
+	@handler UpdateUser
+	put /update (UpdateUserInfoRequest) returns (string)
+}
+

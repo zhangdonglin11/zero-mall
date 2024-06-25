@@ -1,0 +1,67 @@
+type (
+	CreateRequest {
+		Address string `json:"address"`
+		Name    string `json:"name"`
+		Mobile  string `json:"mobile"`
+	}
+	CreateResponse {
+		id      int    `json:"id"`
+		playUrl string `json:"payUrl"`
+	}
+	OrderDetailRequst {
+		Id int `path:"id"`
+	}
+	OrderInfoResponse {
+		Data interface{} `json:"data"`
+	}
+	OrderListRequest  {}
+)
+
+@server (
+	prefix: /v1/api/order
+	jwt:    Auth
+	group:  order
+)
+service Order {
+	@handler CreateOrder
+	post / (CreateRequest) returns (CreateResponse)
+
+	@handler OrderDetail
+	get /:id (OrderDetailRequst) returns (OrderInfoResponse)
+
+	@handler OrderList
+	get / (OrderListRequest) returns (OrderInfoResponse)
+}
+
+type (
+	Request  {}
+	Response {
+		Msg  string      `json:"msg"`
+		Data interface{} `json:"data"`
+	}
+	GoodsInfo {
+		GoodsId int64 `json:"goodsId"`
+		Num     int64 `json:"num"`
+		Checked bool  `json:"checked"`
+	}
+)
+
+@server (
+	prefix: /v1/api/shopcar
+	jwt:    Auth
+	group:  shopCar
+)
+service Order {
+	@handler AddGoodsToCar
+	post / (GoodsInfo) returns (Response)
+
+	@handler ShopCarList
+	get / (Request) returns (Response)
+
+	@handler UpdateShopCar
+	put / (GoodsInfo) returns (Response)
+
+	@handler DeleteShopCar
+	delete / (GoodsInfo) returns (Response)
+}
+
