@@ -7,4 +7,7 @@ type Config struct {
 	Mysql struct {
 		DataSource string
 	}
+	GoodsRpcConf  zrpc.RpcClientConf
+	InventoryConf zrpc.RpcClientConf
+	ShopCartConf  zrpc.RpcClientConf
 }

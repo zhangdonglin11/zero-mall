@@ -22,9 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrderClient interface {
-	// 创建订单和回调
 	CreateOrder(ctx context.Context, in *OrderInfoRequest, opts ...grpc.CallOption) (*OrderInfoResponse, error)
-	CallbackOrder(ctx context.Context, in *OrderInfoRequest, opts ...grpc.CallOption) (*Empty, error)
 	OrderList(ctx context.Context, in *OrderFilterRequest, opts ...grpc.CallOption) (*OrderListResponse, error)
 	OrderDetail(ctx context.Context, in *OrderInfoRequest, opts ...grpc.CallOption) (*OrderInfoDetailResponse, error)
 	UpdateOrderStatus(ctx context.Context, in *OrderStatus, opts ...grpc.CallOption) (*Empty, error)
@@ -40,16 +38,7 @@ func NewOrderClient(cc grpc.ClientConnInterface) OrderClient {
 
 func (c *orderClient) CreateOrder(ctx context.Context, in *OrderInfoRequest, opts ...grpc.CallOption) (*OrderInfoResponse, error) {
 	out := new(OrderInfoResponse)
-	err := c.cc.Invoke(ctx, "/order.order/CreateOrder", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *orderClient) CallbackOrder(ctx context.Context, in *OrderInfoRequest, opts ...grpc.CallOption) (*Empty, error) {
-	out := new(Empty)
-	err := c.cc.Invoke(ctx, "/order.order/CallbackOrder", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/order.Order/CreateOrder", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +47,7 @@ func (c *orderClient) CallbackOrder(ctx context.Context, in *OrderInfoRequest, o
 
 func (c *orderClient) OrderList(ctx context.Context, in *OrderFilterRequest, opts ...grpc.CallOption) (*OrderListResponse, error) {
 	out := new(OrderListResponse)
-	err := c.cc.Invoke(ctx, "/order.order/OrderList", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/order.Order/OrderList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +56,7 @@ func (c *orderClient) OrderList(ctx context.Context, in *OrderFilterRequest, opt
 
 func (c *orderClient) OrderDetail(ctx context.Context, in *OrderInfoRequest, opts ...grpc.CallOption) (*OrderInfoDetailResponse, error) {
 	out := new(OrderInfoDetailResponse)
-	err := c.cc.Invoke(ctx, "/order.order/OrderDetail", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/order.Order/OrderDetail", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +65,7 @@ func (c *orderClient) OrderDetail(ctx context.Context, in *OrderInfoRequest, opt
 
 func (c *orderClient) UpdateOrderStatus(ctx context.Context, in *OrderStatus, opts ...grpc.CallOption) (*Empty, error) {
 	out := new(Empty)
-	err := c.cc.Invoke(ctx, "/order.order/UpdateOrderStatus", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/order.Order/UpdateOrderStatus", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -87,9 +76,7 @@ func (c *orderClient) UpdateOrderStatus(ctx context.Context, in *OrderStatus, op
 // All implementations must embed UnimplementedOrderServer
 // for forward compatibility
 type OrderServer interface {
-	// 创建订单和回调
 	CreateOrder(context.Context, *OrderInfoRequest) (*OrderInfoResponse, error)
-	CallbackOrder(context.Context, *OrderInfoRequest) (*Empty, error)
 	OrderList(context.Context, *OrderFilterRequest) (*OrderListResponse, error)
 	OrderDetail(context.Context, *OrderInfoRequest) (*OrderInfoDetailResponse, error)
 	UpdateOrderStatus(context.Context, *OrderStatus) (*Empty, error)
@@ -102,9 +89,6 @@ type UnimplementedOrderServer struct {
 
 func (UnimplementedOrderServer) CreateOrder(context.Context, *OrderInfoRequest) (*OrderInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOrder not implemented")
-}
-func (UnimplementedOrderServer) CallbackOrder(context.Context, *OrderInfoRequest) (*Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CallbackOrder not implemented")
 }
 func (UnimplementedOrderServer) OrderList(context.Context, *OrderFilterRequest) (*OrderListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OrderList not implemented")
@@ -138,28 +122,10 @@ func _Order_CreateOrder_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/order.order/CreateOrder",
+		FullMethod: "/order.Order/CreateOrder",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrderServer).CreateOrder(ctx, req.(*OrderInfoRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Order_CallbackOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OrderInfoRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrderServer).CallbackOrder(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/order.order/CallbackOrder",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderServer).CallbackOrder(ctx, req.(*OrderInfoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -174,7 +140,7 @@ func _Order_OrderList_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/order.order/OrderList",
+		FullMethod: "/order.Order/OrderList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrderServer).OrderList(ctx, req.(*OrderFilterRequest))
@@ -192,7 +158,7 @@ func _Order_OrderDetail_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/order.order/OrderDetail",
+		FullMethod: "/order.Order/OrderDetail",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrderServer).OrderDetail(ctx, req.(*OrderInfoRequest))
@@ -210,7 +176,7 @@ func _Order_UpdateOrderStatus_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/order.order/UpdateOrderStatus",
+		FullMethod: "/order.Order/UpdateOrderStatus",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrderServer).UpdateOrderStatus(ctx, req.(*OrderStatus))
@@ -222,16 +188,12 @@ func _Order_UpdateOrderStatus_Handler(srv interface{}, ctx context.Context, dec 
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Order_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "order.order",
+	ServiceName: "order.Order",
 	HandlerType: (*OrderServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "CreateOrder",
 			Handler:    _Order_CreateOrder_Handler,
-		},
-		{
-			MethodName: "CallbackOrder",
-			Handler:    _Order_CallbackOrder_Handler,
 		},
 		{
 			MethodName: "OrderList",

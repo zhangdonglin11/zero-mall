@@ -30,4 +30,5 @@ type OrderGoodsInfo struct {
 	GoodsName  string `gorm:"type:varchar(100);index"`
 	GoodsPrice int64
 	Nums       int64 `gorm:"type:int"`
+	OrderId    int64
 }

@@ -7,11 +7,8 @@ package order;
 // 生成 golang 代码后的包名
 option go_package = "./order";
 
-service order{
-  // 创建订单和回调
+service Order{
   rpc CreateOrder(OrderInfoRequest) returns (OrderInfoResponse); //创建订单
-  rpc CallbackOrder(OrderInfoRequest) returns(Empty);
-  //
   rpc OrderList(OrderFilterRequest) returns (OrderListResponse); // 订单列表
   rpc OrderDetail(OrderInfoRequest) returns (OrderInfoDetailResponse); // 订单详情
   rpc UpdateOrderStatus(OrderStatus) returns (Empty); // 修改订单状态
@@ -21,13 +18,10 @@ message Empty{}
 //订单
 message OrderInfoRequest{
   int64 id = 1;
-  string orderSn=2;
   int64 userId = 3;
   string address = 4;
   string name = 5;
   string mobile = 6;
-  int64 Amount=7;
-  repeated OrderGoodsDetail orderGoods=8;
 }
 message OrderInfoResponse{
   int64 id = 1;

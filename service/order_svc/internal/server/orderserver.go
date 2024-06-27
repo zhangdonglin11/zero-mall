@@ -22,15 +22,9 @@ func NewOrderServer(svcCtx *svc.ServiceContext) *OrderServer {
 	}
 }
 
-// 创建订单和回调
 func (s *OrderServer) CreateOrder(ctx context.Context, in *order.OrderInfoRequest) (*order.OrderInfoResponse, error) {
 	l := logic.NewCreateOrderLogic(ctx, s.svcCtx)
 	return l.CreateOrder(in)
-}
-
-func (s *OrderServer) CallbackOrder(ctx context.Context, in *order.OrderInfoRequest) (*order.Empty, error) {
-	l := logic.NewCallbackOrderLogic(ctx, s.svcCtx)
-	return l.CallbackOrder(in)
 }
 
 func (s *OrderServer) OrderList(ctx context.Context, in *order.OrderFilterRequest) (*order.OrderListResponse, error) {

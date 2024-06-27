@@ -7,3 +7,21 @@ Etcd:
 
 Mysql:
   DataSource: root:123456@tcp(127.0.0.1:3309)/zero-mall?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+
+GoodsRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: goods.rpc
+
+InventoryRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: inventory.rpc
+
+ShopCarRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: shopcar.rpc

@@ -23,9 +23,7 @@ type (
 	OrderStatus             = order.OrderStatus
 
 	Order interface {
-		// 创建订单和回调
 		CreateOrder(ctx context.Context, in *OrderInfoRequest, opts ...grpc.CallOption) (*OrderInfoResponse, error)
-		CallbackOrder(ctx context.Context, in *OrderInfoRequest, opts ...grpc.CallOption) (*Empty, error)
 		OrderList(ctx context.Context, in *OrderFilterRequest, opts ...grpc.CallOption) (*OrderListResponse, error)
 		OrderDetail(ctx context.Context, in *OrderInfoRequest, opts ...grpc.CallOption) (*OrderInfoDetailResponse, error)
 		UpdateOrderStatus(ctx context.Context, in *OrderStatus, opts ...grpc.CallOption) (*Empty, error)
@@ -42,15 +40,9 @@ func NewOrder(cli zrpc.Client) Order {
 	}
 }
 
-// 创建订单和回调
 func (m *defaultOrder) CreateOrder(ctx context.Context, in *OrderInfoRequest, opts ...grpc.CallOption) (*OrderInfoResponse, error) {
 	client := order.NewOrderClient(m.cli.Conn())
 	return client.CreateOrder(ctx, in, opts...)
-}
-
-func (m *defaultOrder) CallbackOrder(ctx context.Context, in *OrderInfoRequest, opts ...grpc.CallOption) (*Empty, error) {
-	client := order.NewOrderClient(m.cli.Conn())
-	return client.CallbackOrder(ctx, in, opts...)
 }
 
 func (m *defaultOrder) OrderList(ctx context.Context, in *OrderFilterRequest, opts ...grpc.CallOption) (*OrderListResponse, error) {
