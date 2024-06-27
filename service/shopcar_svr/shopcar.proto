@@ -18,8 +18,6 @@ service ShopCar{
   rpc GetShopCarList(ShopCarItemInfo) returns(ShopCarListResponse);
   // 批量删除购物车的商品
   rpc BatchDelShopCar(shopCarListRequest)returns(Empty);
-  // 回滚
-  rpc RollBackDelShopCar(shopCarListRequest)returns(Empty);
 }
 message Empty{}
 // 购物车
